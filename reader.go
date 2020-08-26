@@ -35,12 +35,6 @@ func (c *Connection) reader() {
 readLoop:
 	for {
 		f, e := c.readFrame()
-		logLock.Lock()
-		if c.logger != nil {
-			c.logx("RDR_RECEIVE_FRAME", f.Command, f.Headers, HexData(f.Body),
-				"RDR_RECEIVE_ERR", e)
-		}
-		logLock.Unlock()
 		if e != nil {
 			//debug.PrintStack()
 			f.Headers = append(f.Headers, "connection_read_error", e.Error())
@@ -95,14 +89,7 @@ readLoop:
 				ps.md <- md
 			default:
 				ps.drmc++
-				if ps.drmc > ps.dra {
-					logLock.Lock()
-					if c.logger != nil {
-						c.logx("RDR_DROPM", ps.drmc, sid, m.Command,
-							m.Headers, HexData(m.Body))
-					}
-					logLock.Unlock()
-				} else {
+				if ps.drmc <= ps.dra {
 					ps.md <- md
 				}
 			}

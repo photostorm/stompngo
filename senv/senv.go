@@ -24,7 +24,6 @@
 package senv
 
 import (
-	"log"
 	"os"
 	"strconv"
 	"sync"
@@ -106,7 +105,6 @@ func Nmsgs() int {
 	}
 	n, e := strconv.ParseInt(ns, 10, 0)
 	if e != nil {
-		log.Printf("NMSGS Conversion error: %v\n", e)
 		return nmsgs
 	}
 	nmsgs = int(n)
@@ -158,9 +156,7 @@ func Protocol() string {
 func SubChanCap() int {
 	if s := os.Getenv("STOMP_SUBCHANCAP"); s != "" {
 		i, e := strconv.ParseInt(s, 10, 32)
-		if nil != e {
-			log.Println("SUBCHANCAP conversion error", e)
-		} else {
+		if nil == e {
 			scc = int(i)
 		}
 	}
@@ -184,18 +180,11 @@ func Vhost() string {
 func MaxBodyLength() int {
 	if s := os.Getenv("STOMP_MAXBODYLENGTH"); s != "" {
 		i, e := strconv.ParseInt(s, 10, 32)
-		if nil != e {
-			log.Println("MAXBODYLENGTH conversion error", e)
-		} else {
+		if nil == e {
 			maxbl = int(i)
 		}
 	}
 	return maxbl
-}
-
-// Optional set logger during connection start
-func WantLogger() string {
-	return os.Getenv("STOMP_LOGGER")
 }
 
 // UseStomp returns true is user wants STOMP frames instead of CONNECT

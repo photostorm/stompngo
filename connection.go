@@ -17,8 +17,6 @@
 package stompngo
 
 import (
-	"log"
-	"runtime"
 	"time"
 )
 
@@ -45,29 +43,6 @@ func (c *Connection) Protocol() string {
 	c.protoLock.Lock()
 	defer c.protoLock.Unlock()
 	return c.protocol
-}
-
-/*
-	SetLogger enables a client defined logger for this connection.
-
-	Set to "nil" to disable logging.
-
-	Example:
-		// Start logging
-		l := log.New(os.Stdout, "", log.Ldate|log.Lmicroseconds)
-		c.SetLogger(l)
-*/
-func (c *Connection) SetLogger(l *log.Logger) {
-	logLock.Lock()
-	c.logger = l
-	logLock.Unlock()
-}
-
-/*
-	GetLogger - returns the current connection logger.
-*/
-func (c *Connection) GetLogger() *log.Logger {
-	return c.logger
 }
 
 /*
@@ -171,18 +146,6 @@ func (c *Connection) SetSubChanCap(nc int) {
 	Log data if possible.
 */
 func (c *Connection) log(v ...interface{}) {
-	logLock.Lock()
-	defer logLock.Unlock()
-	if c.logger == nil {
-		return
-	}
-	_, fn, ld, ok := runtime.Caller(1)
-
-	if ok {
-		c.logger.Printf("%s %s %d %v\n", c.session, fn, ld, v)
-	} else {
-		c.logger.Printf("%s %v\n", c.session, v)
-	}
 	return
 }
 
@@ -190,15 +153,6 @@ func (c *Connection) log(v ...interface{}) {
 	Log data if possible (extended / abbreviated) logic).
 */
 func (c *Connection) logx(v ...interface{}) {
-	_, fn, ld, ok := runtime.Caller(1)
-
-	c.sessLock.Lock()
-	if ok {
-		c.logger.Printf("%s %s %d %v\n", c.session, fn, ld, v)
-	} else {
-		c.logger.Printf("%s %v\n", c.session, v)
-	}
-	c.sessLock.Unlock()
 	return
 }
 

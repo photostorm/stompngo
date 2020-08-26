@@ -25,8 +25,9 @@ import (
 	"runtime/debug"
 	"strings"
 	"testing"
+
 	//
-	"github.com/gmallard/stompngo/senv"
+	"github.com/photostorm/stompngo/senv"
 )
 
 /*

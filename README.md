@@ -19,7 +19,7 @@
 Installation requires a working go environment. For current versions of go
 issue:
 
-* go get github.com/gmallard/stompngo
+* go get github.com/photostorm/stompngo
 
 The GOPATH environment variable must be set properly.
 
@@ -32,7 +32,7 @@ The examples in the included unit tests can be used as a good starting point.
 
 Also see the examples project:
 
-* [stompngo_examples at github](https://github.com/gmallard/stompngo_examples)
+* [stompngo_examples at github](https://github.com/photostorm/stompngo_examples)
 
 ## QA ##
 
@@ -56,7 +56,7 @@ Any and all are welcome by pull request or e-mail patch.
 
 News and notes will be posted from time to time at the stompngo wiki:
 
-* [stompngo wiki](https://github.com/gmallard/stompngo/wiki)
+* [stompngo wiki](https://github.com/photostorm/stompngo/wiki)
 
 Please review and update that on occaision.
 
@@ -64,14 +64,14 @@ Please review and update that on occaision.
 
 For the record, the canonical repository for this project is at:
 
-* [stompngo at github](https://github.com/gmallard/stompngo)
+* [stompngo at github](https://github.com/photostorm/stompngo)
 
 ## Issues ##
 
 Please review issues at the canonical repository.  File any new issues there as
 well:
 
-* [issues](https://github.com/gmallard/stompngo/issues?sort=comments&state=open)
+* [issues](https://github.com/photostorm/stompngo/issues?sort=comments&state=open)
 
 ## Contributors (by first author date) ##
 

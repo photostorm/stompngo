@@ -18,7 +18,6 @@ package stompngo
 
 import (
 	"bufio"
-	"log"
 	"net"
 	"sync"
 	"time"
@@ -173,8 +172,6 @@ type Monitor interface {
 	specification.
 */
 type ParmHandler interface {
-	SetLogger(l *log.Logger)
-	GetLogger() *log.Logger
 	SetSubChanCap(nc int)
 }
 
@@ -215,9 +212,8 @@ type Connection struct {
 	hbd               *heartBeatData
 	wtr               *bufio.Writer
 	rdr               *bufio.Reader
-	Hbrf              bool // Indicates a heart beat read/receive failure, which is possibly transient.  Valid for 1.1+ only.
-	Hbsf              bool // Indicates a heart beat send failure, which is possibly transient.  Valid for 1.1+ only.
-	logger            *log.Logger
+	Hbrf              bool          // Indicates a heart beat read/receive failure, which is possibly transient.  Valid for 1.1+ only.
+	Hbsf              bool          // Indicates a heart beat send failure, which is possibly transient.  Valid for 1.1+ only.
 	mets              *metrics      // Client metrics
 	scc               int           // Subscribe channel capacity
 	discLock          sync.Mutex    // DISCONNECT lock
@@ -406,8 +402,6 @@ type metrics struct {
   Valid broker commands.
 */
 var validCmds = map[string]bool{MESSAGE: true, ERROR: true, RECEIPT: true}
-
-var logLock sync.Mutex
 
 const (
 	NetProtoTCP = "tcp" // Protocol Name

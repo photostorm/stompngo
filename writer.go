@@ -51,12 +51,6 @@ writerLoop:
 		case d := <-c.output:
 			c.log("WTR_WIREWRITE start")
 			c.wireWrite(d)
-			logLock.Lock()
-			if c.logger != nil {
-				c.logx("WTR_WIREWRITE COMPLETE", d.frame.Command, d.frame.Headers,
-					HexData(d.frame.Body))
-			}
-			logLock.Unlock()
 			if d.frame.Command == DISCONNECT {
 				break writerLoop // we are done with this connection
 			}

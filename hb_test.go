@@ -215,10 +215,6 @@ func TestHBNoSend(t *testing.T) {
 			t.Fatalf("TestHBNoSend Receive Ticker is zero.")
 		}
 		//
-		if testhbrd.testhbvb {
-			conn.SetLogger(l)
-		}
-		//
 		conn.log("TestHBNoSend start sleep")
 		conn.log("TestHBNoSend connect response",
 			conn.ConnectResponse.Command,
@@ -270,10 +266,6 @@ func TestHBNoReceive(t *testing.T) {
 			t.Fatalf("TestHBNoReceive Send Ticker is zero.")
 		}
 		//
-		if testhbrd.testhbvb {
-			conn.SetLogger(l)
-		}
-		//
 		conn.log("TestHBNoReceive start sleep")
 		conn.log("TestHBNoReceive connect response",
 			conn.ConnectResponse.Command,
@@ -320,10 +312,6 @@ func TestHBSendReceive(t *testing.T) {
 		}
 		if conn.SendTickerInterval() == 0 {
 			t.Fatalf("TestHBSendReceive Send Ticker is zero.")
-		}
-		//
-		if testhbrd.testhbvb {
-			conn.SetLogger(l)
 		}
 		//
 		conn.log("TestHBSendReceive start sleep")
@@ -379,10 +367,6 @@ func TestHBSendReceiveApollo(t *testing.T) {
 		}
 		if conn.SendTickerInterval() == 0 {
 			t.Fatalf("TestHBSendReceiveApollo Send Ticker is zero.")
-		}
-		//
-		if testhbrd.testhbvb {
-			conn.SetLogger(l)
 		}
 		//
 		conn.log("TestHBSendReceiveApollo start sleep")
@@ -444,9 +428,6 @@ func TestHBSendReceiveRevApollo(t *testing.T) {
 		}
 		//
 		l.Printf("TestHBSendReceiveRevApollo CONNECTED Frame: <%q>\n", conn.ConnectResponse)
-		if testhbrd.testhbvb {
-			conn.SetLogger(l)
-		}
 		//
 		conn.log("TestHBSendReceiveRevApollo start sleep")
 		conn.log("TestHBSendReceiveRevApollo connect response",

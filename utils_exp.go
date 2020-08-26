@@ -22,8 +22,9 @@ import (
 	"encoding/hex"
 	"fmt"
 	"io"
+
 	//
-	"github.com/gmallard/stompngo/senv"
+	"github.com/photostorm/stompngo/senv"
 )
 
 /*

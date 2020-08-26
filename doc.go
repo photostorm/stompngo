@@ -78,7 +78,7 @@
 
 	The channel returned has different characteristics depending on the Stomp Version, and the Headers you pass to Subscribe.
 
-	For details on Subscribe requirements and behavior, see: https://github.com/gmallard/stompngo/wiki/subscribe-and-messagedata
+	For details on Subscribe requirements and behavior, see: https://github.com/photostorm/stompngo/wiki/subscribe-and-messagedata
 
 
 	RECEIPTs
@@ -91,7 +91,7 @@
 	The reason for this behavior is because RECEIPT frames do not contain a subscription Header
 	(per the STOMP specifications).  See the:
 
-	https://github.com/gmallard/stompngo_examples
+	https://github.com/photostorm/stompngo_examples
 
 	package for several examples.
 

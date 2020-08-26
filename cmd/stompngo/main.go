@@ -25,12 +25,11 @@ package main
 */
 
 import (
-	"fmt"
 	//
-	"github.com/gmallard/stompngo"
+	"github.com/photostorm/stompngo"
 )
 
 func main() {
-	fmt.Println(stompngo.Version())
+	println(stompngo.DISCONNECT)
 	return
 }

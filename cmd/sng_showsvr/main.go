@@ -21,9 +21,10 @@ import (
 	"log"
 	"net"
 	"os"
+
 	//
-	sng "github.com/gmallard/stompngo"
-	"github.com/gmallard/stompngo/senv"
+	sng "github.com/photostorm/stompngo"
+	"github.com/photostorm/stompngo/senv"
 )
 
 func main() {

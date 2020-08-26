@@ -18,14 +18,12 @@ package stompngo
 
 import (
 	"bufio"
-	"log"
-	"os"
 
 	// "fmt"
 	"net"
 	"time"
 
-	"github.com/gmallard/stompngo/senv"
+	"github.com/photostorm/stompngo/senv"
 )
 
 /*
@@ -102,12 +100,6 @@ func Connect(n net.Conn, h Headers) (*Connection, error) {
 	// Check that the client wants a version we support
 	if e := c.checkClientVersions(h); e != nil {
 		return c, e
-	}
-	// Optional logging from connection start
-	ln := senv.WantLogger()
-	if ln != "" {
-		c.SetLogger(log.New(os.Stdout, ln+" ",
-			log.Ldate|log.Lmicroseconds|log.Lshortfile))
 	}
 
 	// OK, put a CONNECT on the wire

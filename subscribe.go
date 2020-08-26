@@ -17,12 +17,8 @@
 package stompngo
 
 import (
-	"fmt"
-	"log"
 	"strconv"
 )
-
-var _ = fmt.Println
 
 /*
 	Subscribe to a STOMP subscription.
@@ -44,7 +40,7 @@ var _ = fmt.Println
 	In summary, multiple subscriptions to the same destination are not allowed
 	unless a unique "id" is supplied.
 
-	For details about the returned MessageData channel, see: https://github.com/gmallard/stompngo/wiki/subscribe-and-messagedata
+	For details about the returned MessageData channel, see: https://github.com/photostorm/stompngo/wiki/subscribe-and-messagedata
 
 	Example:
 		// Possible additional Header keys: "ack", "id".
@@ -114,7 +110,7 @@ func (c *Connection) checkSubscribeHeaders(h Headers) error {
 			}
 		}
 	default:
-		log.Fatalf("Internal protocol level error:<%s>\n", c.Protocol())
+		panic("Internal protocol level error: " + c.Protocol())
 	}
 	return nil
 }
@@ -175,16 +171,14 @@ func (c *Connection) establishSubscription(h Headers) (*subscription, error, Hea
 			sd.id = uuid1
 			h = h.Add(HK_ID, uuid1)
 		default:
-			log.Fatalf("Internal protocol level error:<%s>\n", c.Protocol())
+			panic("Internal protocol level error: " + c.Protocol())
 		}
 	}
 
 	// STOMP Protocol Enhancement
 	if dc, okda := h.Contains(StompPlusDrainAfter); okda {
 		n, e := strconv.ParseInt(dc, 10, 0)
-		if e != nil {
-			log.Printf("sng_drafter conversion error: %v\n", e)
-		} else {
+		if e == nil {
 			sd.drav = true   // Drain after value is OK
 			sd.dra = uint(n) // Drain after count
 		}
