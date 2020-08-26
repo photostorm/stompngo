@@ -44,6 +44,8 @@ var (
 	vhLock     sync.Mutex                              // vhsost set lock
 	nmLock     sync.Mutex                              // nmsgs set lock
 	useStomp   = false                                 // use STOMP, not CONNECT
+	wbs        = 64 * 1024                             // TCP Write buffer size
+	rbs        = 64 * 1024                             // TCP Read buffer size
 )
 
 // Destination
@@ -161,6 +163,26 @@ func SubChanCap() int {
 		}
 	}
 	return scc
+}
+
+func WriteBufsz() int {
+	if s := os.Getenv("STOMP_WRITEBUFSZ"); s != "" {
+		i, e := strconv.ParseInt(s, 10, 32)
+		if nil == e {
+			wbs = int(i)
+		}
+	}
+	return wbs
+}
+
+func ReadBufsz() int {
+	if s := os.Getenv("STOMP_READBUFSZ"); s != "" {
+		i, e := strconv.ParseInt(s, 10, 32)
+		if nil == e {
+			rbs = int(i)
+		}
+	}
+	return rbs
 }
 
 // Vhost returns a default vhost name.

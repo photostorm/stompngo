@@ -218,6 +218,7 @@ type Connection struct {
 	scc               int           // Subscribe channel capacity
 	discLock          sync.Mutex    // DISCONNECT lock
 	dld               *deadlineData // Deadline data
+	eltd              *eltmets      // Elapsed time data
 }
 
 type subscription struct {

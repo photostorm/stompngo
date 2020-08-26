@@ -50,7 +50,15 @@ writerLoop:
 		select {
 		case d := <-c.output:
 			c.log("WTR_WIREWRITE start")
-			c.wireWrite(d)
+			if c.eltd != nil {
+				st := time.Now().UnixNano()
+				c.wireWrite(d)
+				c.eltd.wov.ens += time.Now().UnixNano() - st
+				c.eltd.wov.ec++
+			} else {
+				c.wireWrite(d)
+			}
+
 			if d.frame.Command == DISCONNECT {
 				break writerLoop // we are done with this connection
 			}
@@ -79,7 +87,16 @@ func (c *Connection) wireWrite(d wiredata) {
 		if c.dld.wde && c.dld.wds {
 			_ = c.netconn.SetWriteDeadline(time.Now().Add(c.dld.wdld))
 		}
-		_, e := c.wtr.WriteString(f.Command)
+		var e error
+		if c.eltd != nil {
+			st := time.Now().UnixNano()
+			_, e = c.wtr.WriteString(f.Command)
+			c.eltd.wcmd.ens += time.Now().UnixNano() - st
+			c.eltd.wcmd.ec++
+		} else {
+			_, e = c.wtr.WriteString(f.Command)
+		}
+
 		if e != nil {
 			if e.(net.Error).Timeout() {
 				if c.dld.dns {
@@ -168,7 +185,16 @@ func (f *Frame) writeFrame(w *bufio.Writer, c *Connection) error {
 	// Writes start
 
 	// Write the frame Command
-	_, e := w.WriteString(f.Command + "\n")
+	var e error
+	if c.eltd != nil {
+		st := time.Now().UnixNano()
+		_, e = w.WriteString(f.Command + "\n")
+		c.eltd.wcmd.ens += time.Now().UnixNano() - st
+		c.eltd.wcmd.ec++
+	} else {
+		_, e = w.WriteString(f.Command + "\n")
+	}
+
 	if c.checkWriteError(e) != nil {
 		return e
 	}
@@ -178,7 +204,16 @@ func (f *Frame) writeFrame(w *bufio.Writer, c *Connection) error {
 		if c.dld.wde && c.dld.wds {
 			_ = c.netconn.SetWriteDeadline(time.Now().Add(c.dld.wdld))
 		}
-		_, e := w.WriteString(f.Headers[i] + ":" + f.Headers[i+1] + "\n")
+
+		if c.eltd != nil {
+			st := time.Now().UnixNano()
+			_, e = w.WriteString(f.Headers[i] + ":" + f.Headers[i+1] + "\n")
+			c.eltd.wivh.ens += time.Now().UnixNano() - st
+			c.eltd.wivh.ec++
+		} else {
+			_, e = w.WriteString(f.Headers[i] + ":" + f.Headers[i+1] + "\n")
+		}
+
 		if c.checkWriteError(e) != nil {
 			return e
 		}
@@ -242,7 +277,14 @@ func (c *Connection) writeBody(f *Frame) error {
 		if c.dld.wde && c.dld.wds {
 			_ = c.netconn.SetWriteDeadline(time.Now().Add(c.dld.wdld))
 		}
-		n, e = c.wtr.Write(f.Body)
+		if c.eltd != nil {
+			st := time.Now().UnixNano()
+			n, e = c.wtr.Write(f.Body)
+			c.eltd.wbdy.ens += time.Now().UnixNano() - st
+			c.eltd.wbdy.ec++
+		} else {
+			n, e = c.wtr.Write(f.Body)
+		}
 		if n == len(f.Body) {
 			return e
 		}

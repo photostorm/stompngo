@@ -19,8 +19,8 @@ package stompngo
 import (
 	"bufio"
 
-	// "fmt"
 	"net"
+	"os"
 	"time"
 
 	"github.com/photostorm/stompngo/senv"
@@ -102,9 +102,16 @@ func Connect(n net.Conn, h Headers) (*Connection, error) {
 		return c, e
 	}
 
+	// Initialize elapsed time tracking data if needed
+	c.eltd = nil
+	if os.Getenv("STOMP_TRACKELT") != "" {
+		c.eltd = &eltmets{}
+	}
+
 	// OK, put a CONNECT on the wire
-	c.wtr = bufio.NewWriter(n) // Create the writer
-	go c.writer()              // Start it
+	c.wtr = bufio.NewWriterSize(n, senv.WriteBufsz()) // Create the writer
+	// fmt.Println("TCDBG", c.wtr.Size())
+	go c.writer() // Start it
 	var f Frame
 	if senv.UseStomp() {
 		if ch.Value("accept-version") == SPL_11 || ch.Value("accept-version") == SPL_12 {
